@@ -19,7 +19,7 @@
 
 #include "AccountImplementation.h"
 
-#include "UtilsJsonRpc.h"
+#include "UtilsLogging.h"
 
 #define ACCOUNT_NAMESPACE "org.rdk.Account"
 #define ACCOUNT_LAST_CHECKOUT_RESET_TIME_KEY "LastCheckoutResetTime"
