@@ -30,7 +30,7 @@ namespace Plugin {
     SERVICE_REGISTRATION(AccountImplementation, 1, 0);
     
     AccountImplementation::AccountImplementation()
-    , _service(nullptr)
+    : _service(nullptr)
     , _store(nullptr)
     {
         LOGINFO("Create AccountImplementation Instance");
