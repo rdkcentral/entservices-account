@@ -103,11 +103,15 @@ namespace WPEFramework {
         // Make sure the Activated and Deactivated are no longer called before we start cleaning up..
         _service->Unregister(&_accountNotification);
 
-        if (nullptr != _account)
+        // Release configuration interface if it was acquired during initialization.
+        if (nullptr != _configure)
         {
             _configure->Release();
             _configure = nullptr;
+        }
 
+        if (nullptr != _account)
+        {
             Exchange::JAccount::Unregister(*this);
 
             // Stop processing:
