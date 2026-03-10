@@ -28,7 +28,6 @@ namespace WPEFramework {
 namespace Plugin {
 
     SERVICE_REGISTRATION(AccountImplementation, 1, 0);
-    AccountImplementation* AccountImplementation::_instance = nullptr;
     
     AccountImplementation::AccountImplementation()
     : _adminLock()
@@ -36,15 +35,11 @@ namespace Plugin {
     , _store(nullptr)
     {
         LOGINFO("Create AccountImplementation Instance");
-        AccountImplementation::_instance = this;
     }
 
     AccountImplementation::~AccountImplementation()
     {
-
         LOGINFO("Call AccountImplementation destructor\n");
-
-        AccountImplementation::_instance = nullptr;
 
         if (_store != nullptr) {
             _store->Release();

@@ -62,8 +62,6 @@ namespace Plugin {
         mutable Core::CriticalSection _adminLock;
         PluginHost::IShell* _service;
         Exchange::IStore2* _store; 
-    public:
-        static AccountImplementation* _instance;
     };
 } // namespace Plugin
 } // namespace WPEFramework
