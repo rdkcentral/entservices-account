@@ -39,8 +39,6 @@ namespace Plugin {
         AccountImplementation();
         ~AccountImplementation() override;
 
-        static AccountImplementation* instance(AccountImplementation *AccountImpl = nullptr);
-
         // We do not allow this plugin to be copied !!
         AccountImplementation(const AccountImplementation&) = delete;
         AccountImplementation& operator=(const AccountImplementation&) = delete;
