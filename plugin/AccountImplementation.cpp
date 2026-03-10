@@ -30,7 +30,6 @@ namespace Plugin {
     SERVICE_REGISTRATION(AccountImplementation, 1, 0);
     
     AccountImplementation::AccountImplementation()
-    : _adminLock()
     , _service(nullptr)
     , _store(nullptr)
     {
