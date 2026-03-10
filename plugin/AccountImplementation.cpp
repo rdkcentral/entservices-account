@@ -33,6 +33,7 @@ namespace Plugin {
     AccountImplementation::AccountImplementation()
     : _adminLock()
     , _service(nullptr)
+    , _store(nullptr)
     {
         LOGINFO("Create AccountImplementation Instance");
         AccountImplementation::_instance = this;
@@ -84,7 +85,13 @@ namespace Plugin {
         Core::hresult result = _store->GetValue(Exchange::IStore2::ScopeType::DEVICE, ACCOUNT_NAMESPACE, ACCOUNT_LAST_CHECKOUT_RESET_TIME_KEY, resetTimeStr, ttl);
 
         if (result == Core::ERROR_NONE) {
-            resetTime = std::stoull(resetTimeStr);
+            try {  
+                resetTime = std::stoull(resetTimeStr);
+            }
+            catch (const std::exception& e) {
+                LOGERR("Failed to convert stored value to uint64_t: %s", e.what());
+                return Core::ERROR_GENERAL;
+            }
         }
 
         return result;

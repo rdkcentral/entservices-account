@@ -1,5 +1,6 @@
 #!/bin/bash
-set -x
+
+#set -x
 set -e
 ##############################
 GITHUB_WORKSPACE="${PWD}"
@@ -28,7 +29,7 @@ git clone https://$GITHUB_TOKEN@github.com/rdkcentral/entservices-testframework.
 ############################
 # Build Thunder-Tools
 echo "======================================================================================"
-echo "buliding thunderTools"
+echo "building thunderTools"
 cd ThunderTools
 patch -p1 < $GITHUB_WORKSPACE/entservices-testframework/patches/00010-R4.4-Add-support-for-project-dir.patch
 cd -
@@ -87,7 +88,7 @@ cmake --build build/entservices-apis --target install
 
 
 ############################
-# generating extrnal headers
+# generating external headers
 cd $GITHUB_WORKSPACE
 cd entservices-testframework/Tests
 echo " Empty mocks creation to avoid compilation errors"

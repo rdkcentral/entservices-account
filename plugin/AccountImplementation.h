@@ -30,9 +30,6 @@
 #include <com/com.h>
 #include <core/core.h>
 
-
-using namespace WPEFramework;
-
 namespace WPEFramework {
 namespace Plugin {
     class AccountImplementation : public Exchange::IAccount, public Exchange::IConfiguration
@@ -57,10 +54,10 @@ namespace Plugin {
 
         // IConfiguration interface
         uint32_t Configure(PluginHost::IShell* service) override;
-#if 1
+
+        // IAccount interface
         virtual Core::hresult GetLastCheckoutResetTime(uint64_t& resetTime /* @out */) const override;
         virtual Core::hresult SetLastCheckoutResetTime(const uint64_t resetTime) override;
-#endif       
     private:
         mutable Core::CriticalSection _adminLock;
         PluginHost::IShell* _service;

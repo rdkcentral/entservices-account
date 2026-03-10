@@ -41,7 +41,7 @@ namespace WPEFramework {
     namespace Plugin {
         SERVICE_REGISTRATION(Account, API_VERSION_NUMBER_MAJOR, API_VERSION_NUMBER_MINOR, API_VERSION_NUMBER_PATCH);
    
-    Account::Account() : _service(nullptr), _connectionId(0), _account(nullptr), _accountNotification(this)
+    Account::Account() : _service(nullptr), _connectionId(0), _account(nullptr), _configure(nullptr), _accountNotification(this)
     {
         SYSLOG(Logging::Startup, (_T("Account Constructor")));
     }

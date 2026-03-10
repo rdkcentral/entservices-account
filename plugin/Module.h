@@ -19,7 +19,7 @@
 
 #pragma once
 #ifndef MODULE_NAME
-#define MODULE_NAME Account
+#define MODULE_NAME Plugin_Account
 #endif
 
 #include <plugins/plugins.h>
