@@ -1,6 +1,5 @@
 #!/bin/bash
-
-#set -x
+set -x
 set -e
 ##############################
 GITHUB_WORKSPACE="${PWD}"
@@ -30,9 +29,13 @@ cmake -G Ninja -S "$GITHUB_WORKSPACE" -B build/entservices-account \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/headers/rdk/halif/deepsleep-manager \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/thunder \
+-include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Iarm.h \
+-include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Rfc.h \
+-include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/RBus.h \
+-include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Telemetry.h \
 -Wall -Werror -Wno-error=format \
 -Wl,-wrap,system -Wl,-wrap,popen -Wl,-wrap,syslog \
--DDISABLE_SECURITY_TOKEN -DUSE_THUNDER_R4=ON -DTHUNDER_VERSION=4 -DTHUNDER_VERSION_MAJOR=4 -DTHUNDER_VERSION_MINOR=4" \
+-DENABLE_TELEMETRY_LOGGING -DDISABLE_SECURITY_TOKEN -DHAS_RBUS -DUSE_THUNDER_R4=ON -DTHUNDER_VERSION=4 -DTHUNDER_VERSION_MAJOR=4 -DTHUNDER_VERSION_MINOR=4" \
 
 
 cmake --build build/entservices-account --target install
