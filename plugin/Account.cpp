@@ -157,7 +157,7 @@ namespace WPEFramework {
 
     string Account::Information() const
     {
-       return ("This Account Plugin facilitates to manage Hotel checkout operations");
+       return ("This Account Plugin facilitates managing Hotel checkout operations");
     }
 
     void Account::Deactivated(RPC::IRemoteConnection* connection)
