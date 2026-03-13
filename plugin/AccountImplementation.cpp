@@ -87,11 +87,11 @@ namespace Plugin {
                 return Core::ERROR_GENERAL;
             }
         } else if (result == Core::ERROR_NOT_EXIST || result == Core::ERROR_UNKNOWN_KEY) {
-            LOGINFO("Last checkout reset time is not set, returning 0");
             resetTime = 0;
             result = Core::ERROR_NONE; // Not an error if the key doesn't exist, just means it hasn't been set yet
         } else {
             LOGERR("Failed to get last checkout reset time from store: %d", result);
+            return Core::ERROR_GENERAL;
         }
 
         return result;
