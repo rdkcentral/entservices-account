@@ -67,7 +67,7 @@ namespace Plugin {
         return status;
     }
 
-    Core::hresult AccountImplementation::GetLastCheckoutResetTime(uint64_t &resetTime /* @out */) const
+    Core::hresult AccountImplementation::GetLastCheckoutResetTime(GetLastCheckoutResetTimeResult& resetTime /* @out */) const
     {
         if (_store == nullptr) {
             LOGERR("IStore2 interface is not available");
@@ -80,14 +80,14 @@ namespace Plugin {
 
         if (result == Core::ERROR_NONE) {
             try {  
-                resetTime = std::stoull(resetTimeStr);
+                resetTime.resetTime = std::stoull(resetTimeStr);
             }
             catch (const std::exception& e) {
                 LOGERR("Failed to convert stored value to uint64_t: %s", e.what());
                 return Core::ERROR_GENERAL;
             }
         } else if (result == Core::ERROR_NOT_EXIST || result == Core::ERROR_UNKNOWN_KEY) {
-            resetTime = 0;
+            resetTime.resetTime = 0;
             result = Core::ERROR_NONE; // Not an error if the key doesn't exist, just means it hasn't been set yet
         } else {
             LOGERR("Failed to get last checkout reset time from store: %d", result);

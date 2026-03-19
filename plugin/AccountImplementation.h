@@ -55,7 +55,7 @@ namespace Plugin {
         uint32_t Configure(PluginHost::IShell* service) override;
 
         // IAccount interface
-        virtual Core::hresult GetLastCheckoutResetTime(uint64_t& resetTime /* @out */) const override;
+        virtual Core::hresult GetLastCheckoutResetTime(GetLastCheckoutResetTimeResult& resetTime /* @out */) const override;
         virtual Core::hresult SetLastCheckoutResetTime(const uint64_t resetTime) override;
 
     private:
