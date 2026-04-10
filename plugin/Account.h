@@ -63,9 +63,9 @@ class Account : public PluginHost::IPlugin, public PluginHost::JSONRPC {
             void Activated(RPC::IRemoteConnection *connection) override
             {
                 if(_parent._connectionId == connection->Id())
-                    {
-                        LOGINFO("Account Notification Activated");
-                    }
+                {
+                    LOGINFO("Account Notification Activated");
+                }
             }
 
             void Deactivated(RPC::IRemoteConnection *connection) override
