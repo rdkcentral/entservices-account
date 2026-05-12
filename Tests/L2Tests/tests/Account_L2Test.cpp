@@ -27,6 +27,9 @@ protected:
     {
         uint32_t status = Core::ERROR_GENERAL;
 
+        if (remove("/tmp/secure/persistent/rdkservicestore") != 0)
+            TEST_LOG("Failed to remove existing persistent store file, error: %d: %s", errno, strerror(errno));
+
         status = ActivateService("org.rdk.PersistentStore");
         EXPECT_EQ(Core::ERROR_NONE, status);
 
