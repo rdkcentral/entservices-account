@@ -24,6 +24,8 @@ set(PLUGIN_ACCOUNT_STARTUPORDER "" CACHE STRING "To configure startup order of A
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 find_package(${NAMESPACE}Plugins REQUIRED)
+find_package(${NAMESPACE}Definitions REQUIRED)
+find_package(CompileSettingsDebug CONFIG REQUIRED)
 find_package(${NAMESPACE}Helpers REQUIRED)
 
 add_library(${MODULE_NAME} SHARED
@@ -35,7 +37,9 @@ set_target_properties(${MODULE_NAME} PROPERTIES
         CXX_STANDARD_REQUIRED YES)
 
 target_link_libraries(${MODULE_NAME} PRIVATE
+        CompileSettingsDebug::CompileSettingsDebug
         ${NAMESPACE}Plugins::${NAMESPACE}Plugins
+        ${NAMESPACE}Definitions::${NAMESPACE}Definitions
         ${NAMESPACE}::${NAMESPACE}Helpers)
 
 install(TARGETS ${MODULE_NAME}
@@ -49,10 +53,8 @@ set_target_properties(${PLUGIN_IMPLEMENTATION} PROPERTIES
         CXX_STANDARD 11
         CXX_STANDARD_REQUIRED YES)
 
-list(APPEND CMAKE_MODULE_PATH
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-
 target_link_libraries(${PLUGIN_IMPLEMENTATION} PRIVATE
+        CompileSettingsDebug::CompileSettingsDebug
         ${NAMESPACE}Plugins::${NAMESPACE}Plugins
         ${NAMESPACE}::${NAMESPACE}Helpers)
 
