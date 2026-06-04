@@ -11,8 +11,6 @@
 #include "L2TestsMock.h"
 #include "interfaces/IAccount.h"
 
-//#define TEST_LOG(x, ...) fprintf(stderr, "\033[1;32m[%s:%d](%s)<PID:%d><TID:%d>" x "\n\033[0m", __FILE__, __LINE__, __FUNCTION__, getpid(), gettid(), ##__VA_ARGS__); fflush(stderr);
-
 using namespace WPEFramework;
 
 class Account_L2Test : public L2TestMocks {
@@ -25,9 +23,10 @@ protected:
     Account_L2Test()
         : L2TestMocks()
     {
+
         uint32_t status = Core::ERROR_GENERAL;
 
-        if (remove("/tmp/secure/persistent/rdkservicestore") != 0)
+        if (remove("/tmp/secure/persistent/rdkservicestore") != 0 && errno != ENOENT)
             TEST_LOG("Failed to remove existing persistent store file, error: %d: %s", errno, strerror(errno));
 
         status = ActivateService("org.rdk.PersistentStore");
@@ -95,72 +94,81 @@ protected:
 
 TEST_F(Account_L2Test, GetDefaultLastCheckoutResetTime_Success)
 {
-    if (m_AccountPlugin)
-    {
-        const uint64_t expectedDefaultResetTime = 0;
-        Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
-        result.resetTime = 1;
+    EXPECT_TRUE(m_AccountPlugin != nullptr);
 
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
-        EXPECT_EQ(expectedDefaultResetTime, result.resetTime);
-    }
+    if (!m_AccountPlugin)
+        return;
+
+    const uint64_t expectedDefaultResetTime = 0;
+    Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
+    result.resetTime = 1;
+
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
+    EXPECT_EQ(expectedDefaultResetTime, result.resetTime);
 }
 
 TEST_F(Account_L2Test, SetAndGetLastCheckoutResetTime_Success)
 {
-    if (m_AccountPlugin)
-    {
-        const uint64_t expectedResetTime = 123456789ULL;
-        Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
-        result.resetTime = 0;
+    EXPECT_TRUE(m_AccountPlugin != nullptr);
 
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(expectedResetTime));
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
-        EXPECT_EQ(expectedResetTime, result.resetTime);
-    }
+    if (!m_AccountPlugin)
+        return;
+
+    const uint64_t expectedResetTime = 123456789ULL;
+    Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
+    result.resetTime = 0;
+
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(expectedResetTime));
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
+    EXPECT_EQ(expectedResetTime, result.resetTime);
 }
 
 TEST_F(Account_L2Test, SetAndGetLastCheckoutResetTime_ZeroBoundary)
 {
-    if (m_AccountPlugin)
-    {
-        const uint64_t expectedResetTime = 0;
-        Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
-        result.resetTime = 1;
+    EXPECT_TRUE(m_AccountPlugin != nullptr);
 
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(expectedResetTime));
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
-        EXPECT_EQ(expectedResetTime, result.resetTime);
-    }
+    if (!m_AccountPlugin)
+        return;
 
+    const uint64_t expectedResetTime = 0;
+    Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
+    result.resetTime = 1;
+
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(expectedResetTime));
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
+    EXPECT_EQ(expectedResetTime, result.resetTime);
 }
 
 TEST_F(Account_L2Test, SetAndGetLastCheckoutResetTime_MaxUint64Boundary)
 {
-    if (m_AccountPlugin)
-    {
-        const uint64_t expectedResetTime = std::numeric_limits<uint64_t>::max();
-        Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
-        result.resetTime = 0;
+    EXPECT_TRUE(m_AccountPlugin != nullptr);
 
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(expectedResetTime));
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
-        EXPECT_EQ(expectedResetTime, result.resetTime);
-    }
+    if (!m_AccountPlugin)
+        return;
+
+    const uint64_t expectedResetTime = std::numeric_limits<uint64_t>::max();
+    Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
+    result.resetTime = 0;
+
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(expectedResetTime));
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
+    EXPECT_EQ(expectedResetTime, result.resetTime);
 }
 
 TEST_F(Account_L2Test, SetLastCheckoutResetTime_OverwriteValue)
 {
-    if (m_AccountPlugin)
-    {
-        const uint64_t firstResetTime = 111ULL;
-        const uint64_t secondResetTime = 222ULL;
-        Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
-        result.resetTime = 0;
+    EXPECT_TRUE(m_AccountPlugin != nullptr);
 
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(firstResetTime));
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(secondResetTime));
-        EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
-        EXPECT_EQ(secondResetTime, result.resetTime);
-    }
+    if (!m_AccountPlugin)
+        return;
+
+    const uint64_t firstResetTime = 111ULL;
+    const uint64_t secondResetTime = 222ULL;
+    Exchange::IAccount::GetLastCheckoutResetTimeResult result{};
+    result.resetTime = 0;
+
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(firstResetTime));
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->SetLastCheckoutResetTime(secondResetTime));
+    EXPECT_EQ(Core::ERROR_NONE, m_AccountPlugin->GetLastCheckoutResetTime(result));
+    EXPECT_EQ(secondResetTime, result.resetTime);
 }

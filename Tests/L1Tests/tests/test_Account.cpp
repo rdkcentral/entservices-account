@@ -45,14 +45,12 @@ protected:
     Core::ProxyType<Plugin::AccountImplementation> AccountImpl;
     string response;
     WrapsImplMock *p_wrapsImplMock   = nullptr;
-    ServiceMock  *p_serviceMock  = nullptr;
     Store2Mock  *p_store2Mock  = nullptr;
     AccountTest()
         : plugin(Core::ProxyType<Plugin::Account>::Create())
         , handler(*plugin)
         , connection(1,0,"")
     {
-        p_serviceMock = new NiceMock <ServiceMock>;
         p_store2Mock = new NiceMock <Store2Mock>;
 
         p_wrapsImplMock  = new NiceMock <WrapsImplMock>;
@@ -76,12 +74,6 @@ protected:
 
         plugin->Deinitialize(&service);
 
-        if (p_serviceMock != nullptr)
-        {
-            delete p_serviceMock;
-            p_serviceMock = nullptr;
-        }
-        
         if (p_store2Mock != nullptr)
         {
             delete p_store2Mock;
