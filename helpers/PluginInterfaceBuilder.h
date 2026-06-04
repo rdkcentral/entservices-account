@@ -18,6 +18,7 @@
  **/
 #pragma once
 
+#include <unistd.h>
 #include <com/Communicator.h>
 #include <core/Proxy.h>
 #include <plugins/IShell.h>
@@ -67,8 +68,11 @@ namespace Plugin {
         PluginInterfaceRef& operator=(PluginInterfaceRef&& other)
         {
             if (this != &other) {
+                Reset();
                 _interface = other._interface;
+                _service = other._service;
                 other._interface = nullptr;
+                other._service = nullptr;            
             }
             return *this;
         }
@@ -103,27 +107,25 @@ namespace Plugin {
         const std::string& callsign = builder.callSign();
         const int retry_count = builder.retryCount();
         const uint32_t retry_interval = builder.retryInterval();
-        int count = 0;
 
         if (!controller) {
             LOGERR("Invalid controller");
             return nullptr;
         }
 
-        do {
+        for (int attempt = 0; attempt <= retry_count; ++attempt) {
             auto pluginInterface = controller->QueryInterfaceByCallsign<INTERFACE>(callsign.c_str());
 
             if (pluginInterface) {
-                LOGINFO("plugin interface succeed and retry count: %d",count);
+                LOGINFO("plugin interface succeed on attempt: %d", attempt + 1);
                 return pluginInterface;
             }
-            else
-            {
-                count++;
-                LOGERR("plugin interface failed and retry: %d",count);
-                usleep(retry_interval*1000);
+
+            if (attempt < retry_count) {
+                LOGERR("plugin interface failed, retrying attempt: %d", attempt + 1);
+                usleep(retry_interval * 1000);                
             }
-        }while(count < retry_count);
+        }
 
         return nullptr;
     }

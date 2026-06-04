@@ -16,7 +16,7 @@ env:
   THUNDER_REF: "R4.4.1"
   INTERFACES_REF: "develop"
   AUTOMATICS_UNAME: ${{ secrets.AUTOMATICS_UNAME}}
-  AUTOMATICS_PASSCODE: ${{ secrets. AUTOMATICS_PASSCODE}}
+  AUTOMATICS_PASSCODE: ${{ secrets.AUTOMATICS_PASSCODE}}
 
 jobs:
   L2-tests:
@@ -116,15 +116,7 @@ jobs:
           path: entservices-testframework
           ref: 1.0.1
 
-      - name: Checkout entservices-persistentstore
-        uses: actions/checkout@v3
-        with:
-          repository: rdkcentral/entservices-persistentstore
-          path: entservices-persistentstore
-          ref: develop
-
       - name: Checkout googletest
-        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v3
         with:
           repository: google/googletest
@@ -187,6 +179,9 @@ jobs:
           ref: ${{env.INTERFACES_REF}}
           run: rm -rf $GITHUB_WORKSPACE/entservices-apis/jsonrpc/DTV.json
 
+      - name: Remove DTV.json
+        run: rm -rf $GITHUB_WORKSPACE/entservices-apis/jsonrpc/DTV.json
+         
       - name: Apply patches entservices-apis
         run: |
           cd $GITHUB_WORKSPACE/entservices-apis
@@ -606,12 +601,12 @@ jobs:
           /tmp/block/sdb/device
           /dev/disk/by-id
           /dev &&
-          if [ ! -f mknod /dev/sda c 240 0 ]; then mknod /dev/sda c 240 0; fi &&
-          if [ ! -f mknod /dev/sda1 c 240 0 ]; then mknod /dev/sda1 c 240 0; fi &&
-          if [ ! -f mknod /dev/sda2 c 240 0 ]; then mknod /dev/sda2 c 240 0; fi &&
-          if [ ! -f mknod /dev/sdb c 240 0 ]; then mknod /dev/sdb c 240 0; fi &&
-          if [ ! -f mknod /dev/sdb1 c 240 0 ]; then mknod /dev/sdb1 c 240 0; fi &&
-          if [ ! -f mknod /dev/sdb2 c 240 0 ]; then mknod /dev/sdb2 c 240 0; fi
+          if [ ! -c /dev/sda ]; then mknod /dev/sda c 240 0; fi &&
+          if [ ! -c /dev/sda1 ]; then mknod /dev/sda1 c 240 0; fi &&
+          if [ ! -c /dev/sda2 ]; then mknod /dev/sda2 c 240 0; fi &&
+          if [ ! -c /dev/sdb ]; then mknod /dev/sdb c 240 0; fi &&
+          if [ ! -c /dev/sdb1 ]; then mknod /dev/sdb1 c 240 0; fi &&
+          if [ ! -c /dev/sdb2 ]; then mknod /dev/sdb2 c 240 0; fi          
           &&
           sudo touch
           /opt/standbyReason.txt
