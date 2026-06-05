@@ -18,7 +18,11 @@
  **/
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
 #include <unistd.h>
+
 #include <com/Communicator.h>
 #include <core/Proxy.h>
 #include <plugins/IShell.h>

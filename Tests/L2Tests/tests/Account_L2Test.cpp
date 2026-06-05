@@ -1,6 +1,10 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
+
 #include <chrono>
 #include <condition_variable>
 #include <limits>

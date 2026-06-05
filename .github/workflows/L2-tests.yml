@@ -1,4 +1,4 @@
-name: L25-tests
+name: L2-tests
 
 on:
   workflow_call:
@@ -600,12 +600,12 @@ jobs:
           /tmp/block/sdb/device
           /dev/disk/by-id
           /dev &&
-          if [ ! -c /dev/sda ]; then mknod /dev/sda c 240 0; fi &&
-          if [ ! -c /dev/sda1 ]; then mknod /dev/sda1 c 240 0; fi &&
-          if [ ! -c /dev/sda2 ]; then mknod /dev/sda2 c 240 0; fi &&
-          if [ ! -c /dev/sdb ]; then mknod /dev/sdb c 240 0; fi &&
-          if [ ! -c /dev/sdb1 ]; then mknod /dev/sdb1 c 240 0; fi &&
-          if [ ! -c /dev/sdb2 ]; then mknod /dev/sdb2 c 240 0; fi          
+          if [ ! -e /dev/sda ]; then mknod /dev/sda c 240 0; fi &&
+          if [ ! -e /dev/sda1 ]; then mknod /dev/sda1 c 240 0; fi &&
+          if [ ! -e /dev/sda2 ]; then mknod /dev/sda2 c 240 0; fi &&
+          if [ ! -e /dev/sdb ]; then mknod /dev/sdb c 240 0; fi &&
+          if [ ! -e /dev/sdb1 ]; then mknod /dev/sdb1 c 240 0; fi &&
+          if [ ! -e /dev/sdb2 ]; then mknod /dev/sdb2 c 240 0; fi          
           &&
           sudo touch
           /opt/standbyReason.txt

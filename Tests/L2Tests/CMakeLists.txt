@@ -55,7 +55,7 @@ if (MOCKACCESSOR_LIBRARIES)
     message ("Found MockAccessor library - ${MOCKACCESSOR_LIBRARIES}")
     target_link_libraries(${MODULE_NAME} PRIVATE ${MOCKACCESSOR_LIBRARIES})
 else (MOCKACCESSOR_LIBRARIES)
-     message ("Require ${MOCKACCESSOR_LIBRARIES} library")
+     message ("Require MockAccessor library")
 endif (MOCKACCESSOR_LIBRARIES)
 
 target_include_directories(
