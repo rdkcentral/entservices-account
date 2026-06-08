@@ -29,6 +29,7 @@ cmake -G Ninja -S "$GITHUB_WORKSPACE" -B build/entservices-account \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/headers/rdk/halif/deepsleep-manager \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/thunder \
+-I ${GITHUB_WORKSPACE}/install/usr/include/wpeframework/helpers \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Iarm.h \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Rfc.h \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/RBus.h \
