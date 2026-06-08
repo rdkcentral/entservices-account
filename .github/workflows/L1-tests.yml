@@ -124,7 +124,7 @@ jobs:
         with:
           repository: rdkcentral/entservices-testframework
           path: entservices-testframework
-          ref: 1.0.1
+          ref: 1.0.15
 
       - name: Checkout entservices-account
         if: ${{ inputs.caller_source == 'local' }}
@@ -136,8 +136,8 @@ jobs:
         if: ${{ inputs.caller_source == 'testframework' }}
         uses: actions/checkout@v3
         with:
-          repository: rdkcentral/entservices-account
-          path: entservices-account
+          repository: rdkcentral/entservices-account-testframework
+          path: entservices-account-testframework
           ref: develop
 
       - name: Checkout googletest
@@ -146,18 +146,6 @@ jobs:
           repository: google/googletest
           path: googletest
           ref: v1.15.0
-
-      # Fetching only the required essos-resmgr.h file from the Westeros repo to avoid full repo clone and to remove header file dependency
-      - name: Fetch only essos-resmgr.h from Westeros repo using sparse-checkout
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/westeros-minimal
-          cd $GITHUB_WORKSPACE/westeros-minimal
-          git init
-          git remote add origin https://code.rdkcentral.com/r/components/opensource/westeros || echo "Remote is already added"
-          git config core.sparseCheckout true
-          git pull --depth=1 origin master || echo "Already downloaded"
-          mkdir -p $GITHUB_WORKSPACE/entservices-account/ResourceManager
-          cp essos/essos-resmgr.h $GITHUB_WORKSPACE/entservices-account/ResourceManager/
 
       - name: Apply patches ThunderTools
         if: steps.cache.outputs.cache-hit != 'true'
@@ -346,6 +334,34 @@ jobs:
           &&
           cmake --install build/googletest
 
+      - name: Checkout entservices-helpers
+        uses: actions/checkout@v3
+        with:
+          repository: rdkcentral/entservices-helpers
+          path: entservices-helpers
+          ref: develop
+
+      - name: Build entservices-helpers
+        run: >
+          cmake -G Ninja
+          -S "$GITHUB_WORKSPACE/entservices-helpers"
+          -B build/entservices-helpers
+          -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/install/usr"
+          -DCMAKE_MODULE_PATH="$GITHUB_WORKSPACE/install/tools/cmake"
+          -DUSE_THUNDER_R4=ON
+          -DHIDE_NON_EXTERNAL_SYMBOLS=OFF
+          -DPLUGIN_HELPERS=ON
+          -DCMAKE_CXX_FLAGS="
+          -I$GITHUB_WORKSPACE/entservices-testframework/Tests/headers
+          -I$GITHUB_WORKSPACE/entservices-testframework/Tests/headers/rdk/iarmbus
+          -I$GITHUB_WORKSPACE/entservices-testframework/Tests/mocks
+          -include $GITHUB_WORKSPACE/entservices-testframework/Tests/mocks/tr181api.h
+          -include $GITHUB_WORKSPACE/entservices-testframework/Tests/mocks/Iarm.h"
+          &&
+          cmake --build build/entservices-helpers
+          &&
+          cmake --install build/entservices-helpers
+
       - name: Build mocks
         run: >
           cmake
@@ -373,7 +389,7 @@ jobs:
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests/headers/ccec/drivers
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests/headers/network
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests
-          -I $GITHUB_WORKSPACE/entservices-account/helpers
+          -I $GITHUB_WORKSPACE/entservices-helpers/helpers
           -I $GITHUB_WORKSPACE/install/usr/include
           -I ./usr/include/libdrm
           -include $GITHUB_WORKSPACE/entservices-testframework/Tests/mocks/devicesettings.h
@@ -435,6 +451,7 @@ jobs:
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests/headers/Dobby/IpcService
           -I $GITHUB_WORKSPACE/install/usr/include
           -I $GITHUB_WORKSPACE/install/usr/include/WPEFramework
+          -I $GITHUB_WORKSPACE/entservices-helpers/helpers
           -include $GITHUB_WORKSPACE/entservices-testframework/Tests/mocks/devicesettings.h
           -include $GITHUB_WORKSPACE/entservices-testframework/Tests/mocks/Iarm.h
           -include $GITHUB_WORKSPACE/entservices-testframework/Tests/mocks/libusb/libusb.h
@@ -485,13 +502,6 @@ jobs:
           &&
           cmake --install build/entservices-account
 
-      - name: Apply patches testframework
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |  
-          cd $GITHUB_WORKSPACE/entservices-testframework
-          patch -p1 < $GITHUB_WORKSPACE/entservices-account/patches/AccountL1.patch
-          cd -
-
       - name: Build entservices-testframework
         run: >
           cmake -G Ninja
@@ -515,7 +525,7 @@ jobs:
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests/headers/rdk/iarmmgrs-hal
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests/headers/ccec/drivers
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests/headers/network
-          -I $GITHUB_WORKSPACE/entservices-account/helpers
+          -I $GITHUB_WORKSPACE/entservices-helpers/helpers
           -I $GITHUB_WORKSPACE/entservices-testframework/Tests
           -I $GITHUB_WORKSPACE/install/usr/include
           -I ./usr/include/libdrm
@@ -586,13 +596,6 @@ jobs:
           /tmp/block/sdb/device
           /dev/disk/by-id
           /dev
-          &&
-          if [ ! -e /dev/sda ]; then sudo mknod /dev/sda c 240 0; fi &&
-          if [ ! -e /dev/sda1 ]; then sudo mknod /dev/sda1 c 240 0; fi &&
-          if [ ! -e /dev/sda2 ]; then sudo mknod /dev/sda2 c 240 0; fi &&
-          if [ ! -e /dev/sdb ]; then sudo mknod /dev/sdb c 240 0; fi &&
-          if [ ! -e /dev/sdb1 ]; then sudo mknod /dev/sdb1 c 240 0; fi &&
-          if [ ! -e /dev/sdb2 ]; then sudo mknod /dev/sdb2 c 240 0; fi          
           &&
           sudo touch
           /tmp/test/testApp/etc/apps/testApp_package.json
