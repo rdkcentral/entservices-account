@@ -136,8 +136,8 @@ jobs:
         if: ${{ inputs.caller_source == 'testframework' }}
         uses: actions/checkout@v3
         with:
-          repository: rdkcentral/entservices-account-testframework
-          path: entservices-account-testframework
+          repository: rdkcentral/entservices-account
+          path: entservices-account
           ref: develop
 
       - name: Checkout googletest
