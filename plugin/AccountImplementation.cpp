@@ -20,6 +20,7 @@
 #include "AccountImplementation.h"
 
 #include "UtilsLogging.h"
+#include <cstdio>
 
 #define ACCOUNT_NAMESPACE "org.rdk.Account"
 #define ACCOUNT_LAST_CHECKOUT_RESET_TIME_KEY "LastCheckoutResetTime"
@@ -53,6 +54,7 @@ namespace Plugin {
     uint32_t AccountImplementation::Configure(PluginHost::IShell* service)
     {
         LOGINFO("Configuring AccountImplementation");
+        std::printf("[AccountImplementation] Configure called %s \n");
         uint32_t status = Core::ERROR_NONE;
         ASSERT(service != nullptr);
         _service = service;

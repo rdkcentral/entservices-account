@@ -36,6 +36,10 @@ set_target_properties(${MODULE_NAME} PROPERTIES
         CXX_STANDARD 11
         CXX_STANDARD_REQUIRED YES)
 
+target_compile_options(${MODULE_NAME} PRIVATE
+        -Wno-error=format
+        -Wno-error=format-security)
+
 target_link_libraries(${MODULE_NAME} PRIVATE
         CompileSettingsDebug::CompileSettingsDebug
         ${NAMESPACE}Plugins::${NAMESPACE}Plugins
@@ -52,6 +56,10 @@ add_library(${PLUGIN_IMPLEMENTATION} SHARED
 set_target_properties(${PLUGIN_IMPLEMENTATION} PROPERTIES
         CXX_STANDARD 11
         CXX_STANDARD_REQUIRED YES)
+        
+target_compile_options(${PLUGIN_IMPLEMENTATION} PRIVATE
+        -Wno-error=format
+        -Wno-error=format-security)
 
 target_link_libraries(${PLUGIN_IMPLEMENTATION} PRIVATE
         CompileSettingsDebug::CompileSettingsDebug
