@@ -41,9 +41,6 @@ git clone --branch feature/RDKEMW-22169 https://github.com/rdkcentral/entservice
 # Build Thunder-Tools
 echo "======================================================================================"
 echo "building thunderTools"
-cd ThunderTools
-patch -p1 < $GITHUB_WORKSPACE/entservices-testframework/patches/00010-R4.4.6-Add-support-for-project-dir.patch
-cd -
 
 
 cmake -G Ninja -S ThunderTools -B build/ThunderTools \
@@ -59,12 +56,6 @@ cmake --build build/ThunderTools --target install
 # Build Thunder
 echo "======================================================================================"
 echo "building thunder"
-
-cd Thunder
-patch -p1 < $GITHUB_WORKSPACE/entservices-testframework/patches/error_code_R4_4_6.patch
-patch -p1 < $GITHUB_WORKSPACE/entservices-testframework/patches/1004-R4.4.6-Add-support-for-project-dir.patch
-patch -p1 < $GITHUB_WORKSPACE/entservices-testframework/patches/Jsonrpc_dynamic_error_handling_R4.4.6.patch
-cd -
 
 cmake -G Ninja -S Thunder -B build/Thunder \
     -DMESSAGING=ON \
