@@ -115,7 +115,7 @@ jobs:
         with:
           repository: rdkcentral/entservices-testframework
           path: entservices-testframework
-          ref: feature/thunder-01
+          ref: develop
 
       - name: Checkout googletest
         uses: actions/checkout@v3
@@ -137,12 +137,6 @@ jobs:
           cmake --build build/ThunderTools -j8
           &&
           cmake --install build/ThunderTools
-
-      - name: Apply patches Thunder
-        run: |
-          cd $GITHUB_WORKSPACE/Thunder
-          patch -p1 < $GITHUB_WORKSPACE/entservices-testframework/patches/Increase_Timout_For_L2Tests_Plugin_R4_4-RDK.patch
-          cd -
 
       - name: Build Thunder
         run: >
