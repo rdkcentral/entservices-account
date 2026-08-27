@@ -24,7 +24,7 @@
 #define ACCOUNT_NAMESPACE "org.rdk.Account"
 #define ACCOUNT_LAST_CHECKOUT_RESET_TIME_KEY "LastCheckoutResetTime"
 
-namespace WPEFramework {
+namespace Thunder {
 namespace Plugin {
 
     SERVICE_REGISTRATION(AccountImplementation, 1, 0);
@@ -111,4 +111,4 @@ namespace Plugin {
     }
 
 } // namespace Plugin
-} // namespace WPEFramework
+} // namespace Thunder

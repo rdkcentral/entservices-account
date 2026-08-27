@@ -31,7 +31,7 @@
 #include <limits>
 
 using ::testing::NiceMock;
-using namespace WPEFramework;
+using namespace Thunder;
 
 
 class AccountTest : public ::testing::Test {

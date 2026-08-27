@@ -34,7 +34,7 @@
 #include "L2TestsMock.h"
 #include "interfaces/IAccount.h"
 
-using namespace WPEFramework;
+using namespace Thunder;
 
 class Account_L2Test : public L2TestMocks {
 protected:
@@ -89,9 +89,6 @@ protected:
             Core::NodeId("/tmp/communicator"),
             Core::ProxyType<Core::IIPCServer>(Account_Engine));
 
-#if ((THUNDER_VERSION == 2) || ((THUNDER_VERSION == 4) && (THUNDER_VERSION_MINOR == 2)))
-        Account_Engine->Announcements(Account_Client->Announcement());
-#endif
 
         if (!Account_Client.IsValid()) {
             TEST_LOG("Invalid Account_Client");

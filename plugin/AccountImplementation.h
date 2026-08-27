@@ -31,7 +31,7 @@
 #include <core/core.h>
 
 
-namespace WPEFramework {
+namespace Thunder {
 namespace Plugin {
     class AccountImplementation : public Exchange::IAccount, public Exchange::IConfiguration
     {
@@ -63,4 +63,4 @@ namespace Plugin {
         Exchange::IStore2* _store; 
     };
 } // namespace Plugin
-} // namespace WPEFramework
+} // namespace Thunder
