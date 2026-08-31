@@ -108,7 +108,7 @@ class Account : public PluginHost::IPlugin, public PluginHost::JSONRPC {
         uint32_t _connectionId;
         Exchange::IAccount* _account;
         Exchange::IConfiguration* _configure;
-        Core::Sink<Notification> _accountNotification;
+        Core::SinkType<Notification> _accountNotification;
 };
 
 } // namespace Plugin
