@@ -10,6 +10,7 @@ echo "building entservices-account"
 
 cd ${GITHUB_WORKSPACE}
 cmake -G Ninja -S "$GITHUB_WORKSPACE" -B build/entservices-account \
+-DUSE_THUNDER_R4=ON \
 -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/install/usr" \
 -DCMAKE_MODULE_PATH="$GITHUB_WORKSPACE/install/tools/cmake" \
 -DCMAKE_VERBOSE_MAKEFILE=ON \
@@ -27,7 +28,7 @@ cmake -G Ninja -S "$GITHUB_WORKSPACE" -B build/entservices-account \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/headers/rdk/halif/deepsleep-manager \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks \
 -I ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/thunder \
--I ${GITHUB_WORKSPACE}/install/usr/include/thunder/helpers \
+-I ${GITHUB_WORKSPACE}/install/usr/include/wpeframework/helpers \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Iarm.h \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Rfc.h \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/RBus.h \
