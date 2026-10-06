@@ -8,12 +8,12 @@
 #  Thunder::ThunderHelpers
 
 find_library(ThunderHelpers_LIBRARIES
-    NAMES ThunderHelpers
-    PATH_SUFFIXES thunder/plugins)
+    NAMES ThunderHelpers WPEFrameworkHelpers
+    PATH_SUFFIXES thunder/plugins wpeframework/plugins)
 
 find_path(ThunderHelpers_INCLUDE_DIRS
     NAMES UtilsLogging.h
-    PATH_SUFFIXES thunder/helpers)
+    PATH_SUFFIXES thunder/helpers wpeframework/helpers)
 
 set(ThunderHelpers_LIBRARIES    ${ThunderHelpers_LIBRARIES}    CACHE PATH "Path to ThunderHelpers library")
 set(ThunderHelpers_INCLUDE_DIRS ${ThunderHelpers_INCLUDE_DIRS} CACHE PATH "Path to ThunderHelpers includes")
