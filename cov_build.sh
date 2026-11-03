@@ -19,7 +19,6 @@ cmake -G Ninja -S "$GITHUB_WORKSPACE" -B build/entservices-account \
 -DCMAKE_DISABLE_FIND_PACKAGE_DS=ON \
 -DCOMCAST_CONFIG=OFF \
 -DRDK_SERVICES_COVERITY=ON \
--DRDK_SERVICES_L1_TEST=ON \
 -DDS_FOUND=ON \
 -DPLUGIN_ACCOUNT=ON \
 -DCMAKE_CXX_FLAGS="-DEXCEPTIONS_ENABLE=ON \
@@ -36,7 +35,7 @@ cmake -G Ninja -S "$GITHUB_WORKSPACE" -B build/entservices-account \
 -include ${GITHUB_WORKSPACE}/entservices-testframework/Tests/mocks/Telemetry.h \
 -Wall -Werror -Wno-error=format \
 -Wl,-wrap,system -Wl,-wrap,popen -Wl,-wrap,syslog \
--DENABLE_TELEMETRY_LOGGING -DDISABLE_SECURITY_TOKEN -DHAS_RBUS -DUSE_THUNDER_R4=ON -DTHUNDER_VERSION=4 -DTHUNDER_VERSION_MAJOR=4 -DTHUNDER_VERSION_MINOR=4" \
+-DENABLE_TELEMETRY_LOGGING -DDISABLE_SECURITY_TOKEN -DHAS_RBUS -DTHUNDER_VERSION=4 -DTHUNDER_VERSION_MAJOR=4 -DTHUNDER_VERSION_MINOR=4" \
 
 
 cmake --build build/entservices-account --target install
