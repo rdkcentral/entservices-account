@@ -54,7 +54,7 @@ namespace Plugin {
     uint32_t AccountImplementation::Configure(PluginHost::IShell* service)
     {
         LOGINFO("Configuring AccountImplementation");
-        std::printf("[AccountImplementation] Configure called %s \n");
+        std::printf("[AccountImplementation test] Configure called %s \n");
         uint32_t status = Core::ERROR_NONE;
         ASSERT(service != nullptr);
         _service = service;
